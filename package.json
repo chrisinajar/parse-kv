@@ -1,0 +1,32 @@
+{
+  "name": "parse-kv",
+  "version": "0.0.0",
+  "description": "Parse in data in Valve's kv format",
+  "main": "index.js",
+  "scripts": {
+    "test": "semistandard && tape './*test.js' | tap-spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chrisinajar/parse-kv.git"
+  },
+  "keywords": [
+    "dota2",
+    "dota",
+    "kv"
+  ],
+  "author": "Chris Vickery <chrisinajar@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chrisinajar/parse-kv/issues"
+  },
+  "homepage": "https://github.com/chrisinajar/parse-kv#readme",
+  "devDependencies": {
+    "semistandard": "^10.0.0",
+    "tap-spec": "^4.1.1",
+    "tape": "^4.6.3"
+  },
+  "dependencies": {
+    "debug": "^2.6.1"
+  }
+}
