@@ -61,7 +61,7 @@ function parseKV (data) {
         isInComment = true;
       } else {
         debug('found stuff outside of quotes', line);
-        throw new Error('Unexpected token "' + token + '"');
+        throw new Error('Unexpected token "' + token + '" on line ' + i);
       }
     });
     debug('leftover stack', temporaryStack);
