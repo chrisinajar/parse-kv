@@ -44,8 +44,13 @@ function parseKV (data) {
           return;
         case '{':
           if (!temporaryStack) {
-            debug(line);
-            throw new Error('Unexpected "{" character on line ' + i);
+            if (key && !value) {
+              temporaryStack = key;
+              key = '';
+            } else {
+              debug(line);
+              throw new Error('Unexpected "{" character on line ' + i);
+            }
           }
           pushStack(temporaryStack);
           temporaryStack = '';
@@ -66,7 +71,9 @@ function parseKV (data) {
         throw new Error('Unexpected token "' + token + '" on line ' + i);
       }
     });
-    debug('leftover stack', temporaryStack);
+    if (temporaryStack.length) {
+      debug('leftover stack', temporaryStack);
+    }
     temporaryStack = '';
     if (key && !value) {
       temporaryStack = key;
