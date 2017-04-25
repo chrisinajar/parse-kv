@@ -20,8 +20,8 @@ function parseKV (data) {
   var isInComment = false;
 
   lines.forEach(function (line, i) {
-    debug(line);
     if (isInComment) {
+      debug('Ignoring comment line ' + line);
       return;
     }
     line.forEach(function (token) {
@@ -33,6 +33,8 @@ function parseKV (data) {
               key = temporaryStack;
             } else if (!value) {
               value = temporaryStack;
+            } else if (isInComment) {
+              // do nothing, this a comment
             } else {
               debug(line);
               throw new Error('Too many values on line ' + i);
