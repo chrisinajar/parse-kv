@@ -26,6 +26,12 @@ function parseKV (data) {
       if (isInComment) {
         return;
       }
+      if (!isInQuotes) {
+        token = token.trim();
+        if (!token.length) {
+          return;
+        }
+      }
       switch (token) {
         case '\\':
           isEscaping = true;
@@ -36,10 +42,11 @@ function parseKV (data) {
             break;
           }
           isInQuotes = !isInQuotes;
-          if (!isInQuotes && temporaryStack.length) {
+          if (!isInQuotes) {
+            // console.log(key, temporaryStack);
             if (!key) {
               key = temporaryStack;
-            } else if (!value) {
+            } else if (value === null) {
               value = temporaryStack;
             } else if (isInComment) {
               // do nothing, this a comment
@@ -96,9 +103,9 @@ function parseKV (data) {
       debug('leftover stack', temporaryStack);
     }
     temporaryStack = '';
-    if (key && !value) {
+    if (key && value === null) {
       temporaryStack = key;
-    } else if (key && value) {
+    } else if (key !== null && value !== null) {
       currentResult.values[key] = value;
     }
     key = null;

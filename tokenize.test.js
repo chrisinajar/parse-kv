@@ -14,7 +14,8 @@ test('basic usage', function (t) {
   t.ok(data);
 
   t.deepEqual(data[0].tokens, [ '"', 'DOTAAbilities', '"' ], 'reads basic first line');
-  t.deepEqual(data[4].tokens, [ '"', 'AbilityType', '"', '"', 'DOTA_ABILITY_TYPE_BASIC', '"' ], 'reads other basic line');
+  t.deepEqual(data[3].tokens, [ '"', 'BaseClass', '"', '       ', '"', '   ', '"' ], 'reads line with blanks');
+  t.deepEqual(data[4].tokens, [ '"', 'AbilityType', '"', '         ', '"', 'DOTA_ABILITY_TYPE_BASIC', '"' ], 'reads other basic line');
 
   t.end();
 });

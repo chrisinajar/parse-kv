@@ -19,7 +19,8 @@ test('basic usage', function (t) {
   // console.log(JSON.stringify(data, null, 2));
 
   t.ok(data.DOTAAbilities, 'gets root level category');
-  t.ok(data.DOTAAbilities.item_recipe_abyssal_blade, 'reads all sub-categories');
+  t.equals(data.DOTAAbilities.ability_base_datadriven.values.AbilityType, 'DOTA_ABILITY_TYPE_BASIC', 'reads value after empty string');
+  t.ok(data.DOTAAbilities.ability_base_datadriven, 'reads all sub-categories');
   t.equal(data.DOTAAbilities.item_recipe_abyssal_blade.values.ID, '207', 'reads in values');
   t.ok(data.DOTAAbilities.item_recipe_abyssal_blade.ItemRequirements, 'nested sub-categories');
 

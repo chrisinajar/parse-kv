@@ -19,7 +19,7 @@ function tokenizeKV (data) {
 function tokenizeLine (entry) {
   entry.tokens = entry.text
     .split(/(["\\\\])/g)
-    .map(s => s.trim())
+    // .map(s => s.trim())
     .filter(s => s.length);
 
   return entry;
