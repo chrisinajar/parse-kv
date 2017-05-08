@@ -8,13 +8,13 @@ test('basic usage', function (t) {
 
   var data = null;
   t.doesNotThrow(function () {
-    data = tokenizeKV(fileData);
+    data = tokenizeKV(fileData.test);
   }, 'runs without exception');
 
   t.ok(data);
 
-  t.deepEqual(data[0], [ '"', 'DOTAAbilities', '"' ], 'reads basic first line');
-  t.deepEqual(data[4], [ '"', 'AbilityType', '"', '"', 'DOTA_ABILITY_TYPE_BASIC', '"' ], 'reads other basic line');
+  t.deepEqual(data[0].tokens, [ '"', 'DOTAAbilities', '"' ], 'reads basic first line');
+  t.deepEqual(data[4].tokens, [ '"', 'AbilityType', '"', '"', 'DOTA_ABILITY_TYPE_BASIC', '"' ], 'reads other basic line');
 
   t.end();
 });

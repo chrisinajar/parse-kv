@@ -8,8 +8,11 @@ test('basic usage', function (t) {
 
   var data = null;
   t.doesNotThrow(function () {
-    data = parseKV(fileData);
+    data = parseKV(fileData.test);
   }, 'runs without exception');
+  t.doesNotThrow(function () {
+    parseKV(fileData.dota_english);
+  }, 'can parse dota tooltips');
 
   t.ok(data);
 

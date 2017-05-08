@@ -18,15 +18,23 @@ function parseKV (data) {
   var temporaryStack = '';
   var isInQuotes = false;
   var isInComment = false;
+  var isEscaping = false;
 
-  lines.forEach(function (line, i) {
-    if (isInComment) {
-      debug('Ignoring comment line ' + line);
-      return;
-    }
+  lines.forEach(function (entry, i) {
+    var line = entry.tokens;
     line.forEach(function (token) {
+      if (isInComment) {
+        return;
+      }
       switch (token) {
+        case '\\':
+          isEscaping = true;
+          return;
         case '"':
+          if (isEscaping) {
+            isEscaping = false;
+            break;
+          }
           isInQuotes = !isInQuotes;
           if (!isInQuotes && temporaryStack.length) {
             if (!key) {
@@ -35,9 +43,13 @@ function parseKV (data) {
               value = temporaryStack;
             } else if (isInComment) {
               // do nothing, this a comment
+            } else if (key && value) {
+              currentResult.values[key] = value;
+              key = temporaryStack;
+              value = null;
             } else {
-              debug(line);
-              throw new Error('Too many values on line ' + i);
+              debug(entry);
+              throw new Error('Too many values on line ' + entry.line);
             }
             temporaryStack = '';
           }
@@ -48,8 +60,8 @@ function parseKV (data) {
               temporaryStack = key;
               key = '';
             } else {
-              debug(line);
-              throw new Error('Unexpected "{" character on line ' + i);
+              debug(entry);
+              throw new Error('Unexpected "{" character on line ' + entry.line);
             }
           }
           pushStack(temporaryStack);
@@ -63,14 +75,23 @@ function parseKV (data) {
           // root level title
           debug('opening category', token);
         }
+        if (isEscaping) {
+          isEscaping = false;
+          temporaryStack += '\\';
+        }
         temporaryStack += token;
       } else if (token.substr(0, 2) === '//') {
         isInComment = true;
       } else {
         debug('found stuff outside of quotes', line);
-        throw new Error('Unexpected token "' + token + '" on line ' + i);
+        throw new Error('Unexpected token "' + token + '" on line ' + entry.line);
       }
     });
+    if (isInQuotes) {
+      debug('Invalid line: ', entry);
+      // throw new Error('Unmatched close quotation on line ' + entry.line);
+      return;
+    }
     if (temporaryStack.length) {
       debug('leftover stack', temporaryStack);
     }
@@ -83,11 +104,6 @@ function parseKV (data) {
     key = null;
     value = null;
     isInComment = false;
-
-    if (isInQuotes) {
-      debug('Invalid line: ', line);
-      throw new Error('Unmatched close quotation on line ' + i);
-    }
   });
 
   return result;
