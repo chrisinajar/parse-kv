@@ -17,10 +17,23 @@ function tokenizeKV (data) {
 }
 
 function tokenizeLine (entry) {
-  entry.tokens = entry.text
+  var tokens = [];
+
+  entry.text
     .split(/(["\\\\])/g)
-    // .map(s => s.trim())
-    .filter(s => s.length);
+    .filter(s => s.length)
+    .map(function (token) {
+      var tparts = token.split('//');
+      token = tparts.shift();
+
+      tokens.push(token);
+      if (tparts.length) {
+        tokens.push('//' + tparts.join('//'));
+      }
+      return token;
+    });
+
+  entry.tokens = tokens;
 
   return entry;
 }

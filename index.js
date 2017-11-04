@@ -101,6 +101,8 @@ function parseKV (data) {
       } else if (token.substr(0, 2) === '//') {
         isInComment = true;
         comment = token.substr(2);
+      } else if (isInComment) {
+        comment += token;
       } else {
         debug('found stuff outside of quotes', line);
         throw new Error('Unexpected token "' + token + '" on line ' + entry.line);
@@ -117,9 +119,11 @@ function parseKV (data) {
     temporaryStack = '';
     if (key && value === null) {
       temporaryStack = key;
+      currentResult.comments[key] = comment.trim();
     } else if (key !== null && value !== null) {
       currentResult.values[key] = value;
       if (comment.length) {
+        // console.log(key, comment);
         currentResult.comments[key] = comment.trim();
       }
       // Object.defineProperty(  , 'comment', {
