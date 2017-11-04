@@ -1,6 +1,6 @@
 {
   "name": "parse-kv",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Parse in data in Valve's kv format",
   "main": "index.js",
   "scripts": {
