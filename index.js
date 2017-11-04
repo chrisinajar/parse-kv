@@ -11,6 +11,11 @@ function parseKV (data) {
   var currentResult = result;
   var popStack = rootPopStack;
 
+  Object.defineProperty(currentResult, 'comments', {
+    enumerable: false,
+    value: {}
+  });
+
   // state variables
   var stack = [];
   var key = null;
@@ -22,8 +27,13 @@ function parseKV (data) {
 
   lines.forEach(function (entry, i) {
     var line = entry.tokens;
+    var comment = '';
     line.forEach(function (token) {
       if (isInComment) {
+        if (token[0] === '"') {
+          comment += ' ';
+        }
+        comment += token;
         return;
       }
       if (!isInQuotes) {
@@ -50,6 +60,7 @@ function parseKV (data) {
               value = temporaryStack;
             } else if (isInComment) {
               // do nothing, this a comment
+              comment += token;
             } else if (key && value) {
               currentResult.values[key] = value;
               key = temporaryStack;
@@ -89,6 +100,7 @@ function parseKV (data) {
         temporaryStack += token;
       } else if (token.substr(0, 2) === '//') {
         isInComment = true;
+        comment = token.substr(2);
       } else {
         debug('found stuff outside of quotes', line);
         throw new Error('Unexpected token "' + token + '" on line ' + entry.line);
@@ -107,10 +119,18 @@ function parseKV (data) {
       temporaryStack = key;
     } else if (key !== null && value !== null) {
       currentResult.values[key] = value;
+      if (comment.length) {
+        currentResult.comments[key] = comment.trim();
+      }
+      // Object.defineProperty(  , 'comment', {
+      //   enumerable: false,
+      //   value: comment
+      // });
     }
     key = null;
     value = null;
     isInComment = false;
+    comment = '';
   });
 
   return result;
@@ -125,8 +145,12 @@ function parseKV (data) {
     currentResult[title] = {
       values: {}
     };
-
     currentResult = currentResult[title];
+
+    Object.defineProperty(currentResult, 'comments', {
+      enumerable: false,
+      value: {}
+    });
 
     popStack = function () {
       debug('stack pop', stack.pop());

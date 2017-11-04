@@ -24,5 +24,7 @@ test('basic usage', function (t) {
   t.equal(data.DOTAAbilities.item_recipe_abyssal_blade.values.ID, '207', 'reads in values');
   t.ok(data.DOTAAbilities.item_recipe_abyssal_blade.ItemRequirements, 'nested sub-categories');
 
+  t.equal(data.DOTAAbilities.ability_base_datadriven.comments.AbilityTextureName, 'test comment', 'saves comments');
+
   t.end();
 });
