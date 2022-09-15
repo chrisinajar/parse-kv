@@ -107,7 +107,7 @@ function parseKV (data) {
       } else {
         debug('found stuff outside of quotes', line);
         // throw new Error('Unexpected token "' + token + '" on line ' + entry.line);
-        console.log('Warning: Unexpected text on line ' + entry.line + ': ' + token);
+        console.log('Warning: Unexpected text on line ' + entry.line + ': "' + token + '"');
       }
     });
     if (isInQuotes) {
