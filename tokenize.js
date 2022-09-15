@@ -17,13 +17,13 @@ function tokenizeKV (data) {
 }
 
 function tokenizeLine (entry) {
-  var tokens = [];
+  const tokens = [];
 
   entry.text
     .split(/(["\\\\])/g)
     .filter(s => s.length)
     .map(function (token) {
-      var tparts = token.split('//');
+      const tparts = token.split('//');
       token = tparts.shift();
 
       tokens.push(token);

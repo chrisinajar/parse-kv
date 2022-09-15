@@ -1,15 +1,15 @@
-var tokenizeKV = require('./tokenize');
-var debug = require('debug')('parseKV:parse');
+const tokenizeKV = require('./tokenize');
+const debug = require('debug')('parseKV:parse');
 
 module.exports = parseKV;
 
 function parseKV (data) {
-  var lines = tokenizeKV(data);
-  var result = {
+  const lines = tokenizeKV(data);
+  const result = {
     values: {}
   };
-  var currentResult = result;
-  var popStack = rootPopStack;
+  let currentResult = result;
+  let popStack = rootPopStack;
 
   Object.defineProperty(currentResult, 'comments', {
     enumerable: false,
@@ -17,17 +17,17 @@ function parseKV (data) {
   });
 
   // state variables
-  var stack = [];
-  var key = null;
-  var value = null;
-  var temporaryStack = '';
-  var isInQuotes = false;
-  var isInComment = false;
-  var isEscaping = false;
+  const stack = [];
+  let key = null;
+  let value = null;
+  let temporaryStack = '';
+  let isInQuotes = false;
+  let isInComment = false;
+  let isEscaping = false;
 
   lines.forEach(function (entry, i) {
-    var line = entry.tokens;
-    var comment = '';
+    const line = entry.tokens;
+    let comment = '';
     line.forEach(function (token) {
       if (isInComment) {
         if (token[0] === '"') {
@@ -79,7 +79,8 @@ function parseKV (data) {
               key = '';
             } else {
               debug(entry);
-              throw new Error('Unexpected "{" character on line ' + entry.line);
+              // throw new Error('Unexpected "{" character on line ' + entry.line);
+              console.log('Warning: Unexpected "{" character on line ' + entry.line);
             }
           }
           pushStack(temporaryStack);
@@ -105,7 +106,8 @@ function parseKV (data) {
         comment += token;
       } else {
         debug('found stuff outside of quotes', line);
-        throw new Error('Unexpected token "' + token + '" on line ' + entry.line);
+        // throw new Error('Unexpected token "' + token + '" on line ' + entry.line);
+        console.log('Warning: Unexpected text on line ' + entry.line + ': ' + token);
       }
     });
     if (isInQuotes) {
@@ -140,8 +142,8 @@ function parseKV (data) {
   return result;
 
   function pushStack (title) {
-    var _popStack = popStack;
-    var parentResult = currentResult;
+    const _popStack = popStack;
+    const parentResult = currentResult;
 
     debug('pushing to stack', title);
     stack.push(title);
