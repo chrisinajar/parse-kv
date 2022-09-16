@@ -104,4 +104,102 @@
         "key2"                                             "alakhazam"
       }    }
 
+  //=================================================================================================================
+  // Recipe: Aeon Disk 1
+  //=================================================================================================================
+  "item_recipe_aeon_disk_oaa"
+  {
+    // General
+    //-------------------------------------------------------------------------------------------------------------
+    "ID"                                                  "80255"
+    "BaseClass"                                           "item_datadriven"
+    "Model"                                               "models/props_gameplay/recipe.vmdl"
+    "AbilityTextureName"                                  "custom/recipe/recipe_1"
+
+    // Item Info
+    //-------------------------------------------------------------------------------------------------------------
+    "ItemCorePointCost"                                   "0"
+    "ItemCost"                                            "1200"
+    "ItemShopTags"                                        ""
+
+    // Recipe
+    //-------------------------------------------------------------------------------------------------------------
+    "ItemRecipe"                                          "1"
+    "ItemResult"                                          "item_aeon_disk_oaa"
+    "ItemRequirements"
+    {
+      "01"                                                "item_vitality_booster;item_energy_booster"
+    }
+  }
+
+  //=================================================================================================================
+  // Aeon Disk 1
+  //=================================================================================================================
+  "item_aeon_disk_oaa"
+  {
+    // General
+    //-------------------------------------------------------------------------------------------------------------
+    "ID"                                                  "80256"
+    "BaseClass"                                           "item_lua"
+    "ScriptFile"                                          "items/aeon_disk.lua"
+    "AbilityBehavior"                                     "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    "AbilityTextureName"                                  "custom/combo_breaker"
+
+    // Stats
+    //-------------------------------------------------------------------------------------------------------------
+    "AbilityCooldown"                                     "105 95 85 75 65" // OAA old: "105 95 75 55 35"
+    "AbilitySharedCooldown"                               "combobreaker"
+    "AbilityManaCost"                                     "0"
+
+    // Spicy Parameters
+    //-------------------------------------------------------------------------------------------------------------
+    "MaxUpgradeLevel"                                     "5"
+    "ItemBaseLevel"                                       "1"
+    "UpgradesItems"                                       "item_aeon_disk_oaa;item_aeon_disk_2;item_aeon_disk_3;item_aeon_disk_4;item_aeon_disk_5"
+
+    // Item Info
+    //-------------------------------------------------------------------------------------------------------------
+    "ItemCost"                                            "3000"
+    "ItemShopTags"                                        "health_pool;mana_pool"
+    "ItemQuality"                                         "epic"
+    "ItemAliases"                                         "ad;aeon disk"
+    "ItemDeclarations"                                    "DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+
+    // Special
+    //-------------------------------------------------------------------------------------------------------------
+    "AbilitySpecial"
+    {
+      "01"
+      {
+        "var_type"                                        "FIELD_INTEGER"
+        "bonus_health"                                    "250 500 1000 1750 2750"
+      }
+      "02"
+      {
+        "var_type"                                        "FIELD_INTEGER"
+        "bonus_mana"                                      "300 400 550 750 1000"
+      }
+      "03"
+      {
+        "var_type"                                        "FIELD_INTEGER"
+        "health_threshold_pct"                            "70"
+      }
+      "04"
+      {
+        "var_type"                                        "FIELD_INTEGER"
+        "status_resistance"                               "75"
+      }
+      "05"
+      {
+        "var_type"                                        "FIELD_FLOAT"
+        "buff_duration"                                   "2.5"
+      }
+      "06"
+      {
+        "var_type"                                        "FIELD_INTEGER"
+        "cooldown_tooltip"                                "105 95 85 75 65"
+      }
+    }
+  }
+
 }
