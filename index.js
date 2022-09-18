@@ -79,8 +79,9 @@ function parseKV (data) {
               key = '';
             } else {
               debug(entry);
+              temporaryStack = '';
+              key = '';
               // throw new Error('Unexpected "{" character on line ' + entry.line);
-              console.log('Warning: Unexpected "{" character on line ' + entry.line);
             }
           }
           pushStack(temporaryStack);
@@ -106,8 +107,13 @@ function parseKV (data) {
         comment += token;
       } else {
         debug('found stuff outside of quotes', line);
-        // throw new Error('Unexpected token "' + token + '" on line ' + entry.line);
-        console.log('Warning: Unexpected text on line ' + entry.line + ': "' + token + '"');
+        // If last token in the line, treat is as a comment
+        if (line[line.length - 1].trim() === token) {
+          comment += token;
+          isInComment = true;
+        } else {
+          throw new Error('Unexpected token "' + token + '" on line ' + entry.line);
+        }
       }
     });
     if (isInQuotes) {

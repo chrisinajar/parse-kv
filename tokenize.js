@@ -23,14 +23,17 @@ function tokenizeLine (entry) {
     .split(/(["\\\\])/g)
     .filter(s => s.length)
     .map(function (token) {
+      const tempTokens1 = token.split(/([{\\\\])/g);
+      tempTokens1.forEach(function (t1) {
+        const tempTokens2 = t1.split(/([}\\\\])/g);
+        tempTokens2.forEach(function (t2) {
+          if (t2.length) {
+            tokens.push(t2);
+          }
+        });
+      });
       const tparts = token.split('//');
-      token = tparts.shift();
-
-      tokens.push(token);
-      if (tparts.length) {
-        tokens.push('//' + tparts.join('//'));
-      }
-      return token;
+      return tparts.shift();
     });
 
   entry.tokens = tokens;
