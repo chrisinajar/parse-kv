@@ -1,12 +1,12 @@
-var test = require('tape');
-var fileData = require('./data');
+const test = require('tape');
+const fileData = require('./data');
 
-var parseKV = require('./index');
+const parseKV = require('./index');
 
 test('basic usage', function (t) {
   t.ok(fileData, 'can read file data');
 
-  var data = null;
+  let data = null;
   t.doesNotThrow(function () {
     data = parseKV(fileData.test);
   }, 'runs without exception');

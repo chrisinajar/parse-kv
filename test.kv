@@ -67,4 +67,85 @@
     }
   }
 
+  //=================================================================================================================
+  // Recipe: Test item with intentionally bad formatting and text outside of quotes
+  //=================================================================================================================
+  "item_recipe_test_item"
+  {
+    "ID"            "1000000"   // unique ID "quotes"
+    "ItemCost"          "1550"
+    "ItemShopTags"          ""
+    "ItemRecipe"          "1" I am supposed to be a comment but I dont have these / /
+    "ItemResult"          "item_test_item"
+    "ItemRequirements" { // comment on header after curly
+      "01"            "item_something;item_thing"
+    }
+    "AbilitySpecial" // comment on header
+    { "05" { "var_type"                                        "FIELD_INTEGER"
+        "duration"                                   "1 2 3 4" }
+    }
+    "AbilityValues" another comment
+    {
+      "key0"                                               "value0"
+	  "kv_block_0"
+      {
+        "key1"                                             "value1"
+        "key2"                                             "value2"
+      }
+      // kv_block_1 without quotes
+      {
+        "key3"                                             "value3"
+        "key4"                                             "value4"
+      }
+    }
+    "kv_block_2" {
+        "key5"                                             "value5"        "key6"                                             "value6"
+      }                }
+
+  "item_recipe_test_item_2"
+  {
+    // General
+    //-------------------------------------------------------------------------------------------------------------
+    "ID"                                                  "80255"
+    "BaseClass"                                           "item_datadriven"
+
+    "AbilityValues" {
+      // kv_block_3 without quotes
+      {
+        "key7"                                             "value7"
+        "key8"                                             "value8"
+      }
+    }
+    "kv_block_4" {
+        "key9"                                             "value9"        "key10"                                             "value10"
+      }
+}
+
+  //=================================================================================================================
+  // Aeon Disk 1
+  //=================================================================================================================
+  "item_aeon_disk"
+  {
+    // General
+    //-------------------------------------------------------------------------------------------------------------
+    "ID"                                                  "80256"
+    "BaseClass"                                           "item_lua"
+
+    // Special
+    //-------------------------------------------------------------------------------------------------------------
+    "AbilitySpecial"
+    {
+      "01"
+      {
+        "var_type"                                        "FIELD_INTEGER"
+        "bonus_health"                                    "250 500 1000 1750 2750"
+      }
+      "02"
+      {
+        "var_type"                                        "FIELD_INTEGER"
+        "bonus_mana"                                      "300 400 550 750 1000"
+      }
+    }
+  }
+
 }
